@@ -43,19 +43,19 @@ void platform_init(void)
 {
   //Set the state of the first platform as true, the rest to false
   for (int i = 0; i<NUMBER_OF_PLATFORMS; i++)
-    {
-      if (i == 1)
-	      {
-	        my_platform_vector[i].state = true;
-	      }
-      else
-	      {
-	        my_platform_vector[i].state = false;
-	      }
+  {
+    if (i == 1)
+	  {
+	    my_platform_vector[i].state = true;
+	  }
+    else
+	  {
+	    my_platform_vector[i].state = false;
+	  }
       
-      my_platform_vector[i].row = 0; //every platform starts at row 0 (top row)
-      randomize_platform(i); //randomize the length and x-offset position of each platform
-    }
+    my_platform_vector[i].row = 0; //every platform starts at row 0 (top row)
+    randomize_platform(i); //randomize the length and x-offset position of each platform
+  }
 
   //initialize score
   score = 0;
@@ -65,7 +65,7 @@ void platform_init(void)
   app_timer_create(&display_screen, APP_TIMER_MODE_REPEATED,part4_cb); //params: timer variable address, repeated mode, callback 
   app_timer_start(display_screen, 16, NULL); //params: timer variable, timout ticks (lower number means a faster timer)
   
- //start the timers to cause the platforms to fall - rate at which platform is falling/moving down by one row
+  //start the timers to cause the platforms to fall - rate at which platform is falling/moving down by one row
   app_timer_create(&timer_falling_platforms, APP_TIMER_MODE_REPEATED, next_row); 
   app_timer_start(timer_falling_platforms, 26000, NULL);
 
@@ -85,9 +85,9 @@ void stop_platform_timers(void)
 
   //stop displaying platforms by setting all platform states to false
   for(int i = 0; i<total_platforms; i++)
-    {
-      my_platform_vector[i].state = false;
-    }
+  {
+    my_platform_vector[i].state = false;
+  }
 }
 
 /**
@@ -102,13 +102,13 @@ void randomize_platform(int i)
 
   //set the offset based on the platform size
   if (my_platform_vector[i].size == 2)
-    {
-      my_platform_vector[i].offset = get_random_0to3();
-    }
+  {
+    my_platform_vector[i].offset = get_random_0to3();
+  }
   else
-    {
-      my_platform_vector[i].offset = get_random_0to2(); //becase the platform is bigger, it can no longer have an offset of 3
-    }
+  {
+    my_platform_vector[i].offset = get_random_0to2(); //becase the platform is bigger, it can no longer have an offset of 3
+  }
 }
 
 /**
@@ -120,13 +120,13 @@ void activate_platform(void* _unused)
 {
   //loop through each platform, activating the first one that is inactive
   for (int i = 0; i<total_platforms; i++)
-    {
-      if (my_platform_vector[i].state == false)
-	      {
-	        my_platform_vector[i].state = true;
-	        break;
-	      }
-    }
+  {
+    if (my_platform_vector[i].state == false)
+	    {
+	      my_platform_vector[i].state = true;
+	      break;
+	    }
+  }
 }
 
 /**
@@ -141,25 +141,25 @@ void next_row(void* _unused)
 {
   //loop through all platforms
   for (int i = 0; i<total_platforms; i++)
-    {
-      //make the platform fall if the state is on
-      if (my_platform_vector[i].state == true)
-	      {
-	      if (my_platform_vector[i].row == 4)
-	        {
-		        //if the platform has reached the bottom, turn the state off, send it back to the top to be released again,
-		        //and randomize the size and location
-		        my_platform_vector[i].row = 0;
-		        my_platform_vector[i].state = false;
-		        randomize_platform(i);
-		        
-            //update score for each platform that falls below the bottom 
-		        score += 100; 
-	        }
-	      else
-	        {
-		        my_platform_vector[i].row++; //increase the row number (resulting in the platform falling one row)
-	        }
-	      }
-    }
+  {
+    //make the platform fall if the state is on
+    if (my_platform_vector[i].state == true)
+	  {
+	    if (my_platform_vector[i].row == 4)
+	    {
+		    //if the platform has reached the bottom, turn the state off, send it back to the top to be released again,
+		    //and randomize the size and location
+		    my_platform_vector[i].row = 0;
+		    my_platform_vector[i].state = false;
+		    randomize_platform(i);
+		      
+        //update score for each platform that falls below the bottom 
+		    score += 100; 
+	    }
+	    else
+	    {
+		    my_platform_vector[i].row++; //increase the row number (resulting in the platform falling one row)
+	    }
+	  }
+  }
 }

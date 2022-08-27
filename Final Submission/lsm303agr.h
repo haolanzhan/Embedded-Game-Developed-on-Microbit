@@ -1,4 +1,11 @@
-// LSM303AGR accelerometer and magnetometer
+/**
+ * @file lsm303agr.h
+ * @author Leanna Nguyen 
+ * @version 1
+ * @date 6/2020
+ * 
+ * @brief Driver for the LSM303AGR accelerometer and magnetometer
+ */
 
 #pragma once
 
@@ -80,7 +87,9 @@ typedef enum {
   LSM303AGR_MAG_OUT_Z_H_REG = 0X6D,
 } lsm303agr_mag_reg_t;
 
-// Function prototypes
+/**
+ * @note Function prototypes 
+ */
 
 // Initialize and configure the LSM303AGR accelerometer/magnetometer
 //

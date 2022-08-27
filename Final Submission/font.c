@@ -1,5 +1,11 @@
-// 5x5 Font
-// Adapted from https://github.com/ChrisG0x20/five-pixel-font
+/**
+ * @file font.c
+ * @version 1
+ * @date 6/2020
+ * 
+ * @brief 5x5 Font
+ * Adapted from https://github.com/ChrisG0x20/five-pixel-font
+ */
 
 #include "font.h"
 
