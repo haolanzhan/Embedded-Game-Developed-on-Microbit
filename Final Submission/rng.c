@@ -1,19 +1,28 @@
-// RNG Driver
+/**
+ * @file rng.c
+ * @author Haolan Zhan
+ * @version 1
+ * @date 6/2020
+ * 
+ * @brief Driver for the RNG peripheral on the NRF chip. API functions include gettings random numbers 
+ * within a set range. 
+ */
 
 #include <nrf_delay.h>
-
 #include <stdbool.h>
 #include <stdio.h>
-
+#include <stdint.h>
 #include "nrf_gpio.h"
 #include "app_timer.h"
 #include <nrfx_rng.h>
-
-
 #include "microbit_v2.h"
 #include "rng.h"
 
-//struct for rng driver
+/************************************
+ * @note structs and global variables 
+ ***********************************/
+
+//struct for rng driver based on available registers 
 typedef struct{
   uint32_t TASKS_START;
   uint32_t TASKS_STOP;
@@ -29,8 +38,15 @@ typedef struct{
   uint32_t VALUE;
 }rng_reg_t;
 
-volatile rng_reg_t* MY_RNG_REGS = (rng_reg_t*)(0x4000D000);
+volatile rng_reg_t* MY_RNG_REGS = (rng_reg_t*)(0x4000D000); // use base adress for the RNG register
 
+/************************************
+ * @note Driver functions 
+ ***********************************/
+
+/**
+ * @brief Initialize the RNG peripheral by setting the appropriate settings in the config registers
+ */
 void rng_init(void)
 {
   /*
@@ -47,24 +63,33 @@ void rng_init(void)
   MY_RNG_REGS->SHORTS = 0;
 }
 
+/**
+ * @brief get a random number between 2 and 3
+ */
 uint8_t get_random_2to3(void)
 {
   //start rng generation and read a value between 0 and 1
   MY_RNG_REGS->TASKS_START = 1;
   nrf_delay_ms(2);
-  uint8_t random_number = (MY_RNG_REGS->VALUE) & 1;
+  uint8_t random_number = (MY_RNG_REGS->VALUE) & 1; //only use LSB of the random valie
   MY_RNG_REGS->TASKS_STOP = 1;
 
   //only return 2 or 3
   return (random_number + 2); 
 }
 
+/**
+ * @brief get a random number between 0 and 2
+ * @note Hack: getting a random number with a range of 3 is awkward, need to hardcode to return 1 if the
+ * random value is 3. This results in 1 being more likely than 0 or 2, but since that is the median value, 
+ * this behavior is acceptable
+ */
 uint8_t get_random_0to2(void)
 {
   //start rng generation and read a value between 0 and 3
   MY_RNG_REGS->TASKS_START = 1;
   nrf_delay_ms(2);
-  uint8_t random_number = (MY_RNG_REGS->VALUE) & 3;
+  uint8_t random_number = (MY_RNG_REGS->VALUE) & 3; //only use the least significant 2 bits 
   MY_RNG_REGS->TASKS_STOP = 1;
 
   //only return 0-2
@@ -76,14 +101,17 @@ uint8_t get_random_0to2(void)
   return random_number;
 }
 
+/**
+ * @brief get a random number between 0 and 3
+ */
 uint8_t get_random_0to3(void)
 {
   //start rng generation and read a value between 0 and 3
   MY_RNG_REGS->TASKS_START = 1;
   nrf_delay_ms(2);
-  uint8_t random_number = (MY_RNG_REGS->VALUE) & 3;
+  uint8_t random_number = (MY_RNG_REGS->VALUE) & 3; //only use the least significant 2 bits
   MY_RNG_REGS->TASKS_STOP = 1;
 
-  //only return 2 or 3
+  //only return 0-3
   return random_number; 
 }
