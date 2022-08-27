@@ -144,4 +144,4 @@ void update_char_y(void *_unused)
 			mychar.blocks_to_jump--;
 		}
 	}
-}
+} 
