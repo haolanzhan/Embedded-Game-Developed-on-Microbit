@@ -3,6 +3,7 @@
         "stdint.h": "c",
         "nrf_delay.h": "c",
         "stdbool.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "platform.h": "c"
     }
 }

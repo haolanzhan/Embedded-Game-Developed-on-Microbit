@@ -28,7 +28,8 @@
 APP_TIMER_DEF(timer_falling_platforms);
 APP_TIMER_DEF(timer_activate_platforms);
 
-// timer to display screen - technically not platform related, but related to the display of the entire 5x5 LED matrix.
+// timer to display screen, one row at a time as explained in led_matrix.c 
+// - technically not platform related, but related to the display of the entire 5x5 LED matrix.
 // Moved here to keep all timer definitions in the same place
 APP_TIMER_DEF(display_screen);
 
